@@ -1,6 +1,6 @@
 <template>
-  <div>
-  <div class="navbar bg-slate-700 text-white lg:px-10  flex justify-between">
+  <div v-if="products">
+    <div class="navbar bg-slate-700 text-white lg:px-10  flex justify-between">
       <div class="navbar-start w-2/12 ">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden">
@@ -26,18 +26,20 @@
             <li><a>Admin</a></li>
           </ul>
         </div>
-        <a class="btn btn-ghost normal-case text-2xl italic ">Mym<span class="text-amber-400">Bazar</span></a>
+        <a class="btn btn-ghost normal-case text-3xl italic ">Mym<span class="text-amber-400">Bazar</span></a>
 
       </div>
 
 
       <div class="navbar-end  flex  w-10/12">
-      
+
+        <!-- search  -->
 
         <form class="flex items-center  lg:w-8/12">
           <label for="simple-search" class="sr-only">Search</label>
-          <div class="relative w-full">
-            <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+          <div class="dropdown dropdown-hover relative w-full">
+            <div class=" flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+
               <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
                 viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -45,53 +47,101 @@
                   clip-rule="evenodd"></path>
               </svg>
             </div>
-            <input type="text" id="simple-search"
-              class="bg-slate-100  text-gray-900 text-sm rounded-l-lg focus:border-blue-500 focus:ring-2  focus:ring-blue-300 block w-full pl-10 p-2.5   placeholder:text-xl"
+            <input v-model="inputValue"  type="text" id="" tabindex="0"
+              class=" bg-slate-100  text-gray-900 text-base rounded-l-lg focus:border-blue-500 focus:ring-2  focus:ring-blue-300 block w-full pl-10    placeholder:text-lg"
               placeholder="Search items" required="">
-          </div>
 
-          <button type="submit"
-            class="p-2.5  text-sm font-medium text-white bg-amber-500 rounded-r-lg bg-opacity-90 hover:bg-amber-600 focus:ring-2 focus:ring-black-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
-            <span class="sr-only">Search</span>
-          </button>
+            <ul  tabindex="0"
+              class=" max-h-96 overflow-y-scroll absolute w-full dropdown-content menu  shadow bg-slate-100 text-slate-700 border-t-0">
+              <li class="pl-6" @click="select(i)"  v-for="i in suggestItems" :key="i.id"><a>{{i.name}}</a></li>
+            </ul>
+          </div>
+         
+
+          <!-- search button  -->
+       
+          <router-link v-if="selectedId" :to="{name : 'productDeatils' , params:{id : selectedId.id }}">
+                <button type="submit"
+                class="p-2.5  text-sm font-medium text-white bg-amber-500 rounded-r-lg bg-opacity-90 hover:bg-amber-600 focus:ring-2 focus:ring-black-600 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                </svg>
+                <span class="sr-only">Search</span>
+              </button>
+          </router-link>
 
         </form>
 
-        <div class=" hidden lg:flex ">
-            <ul class="menu menu-horizontal  p-0">
-               <li class="lg:ml-5    ">
-                <router-link to="" class="menu-title"> Item 1 </router-link>
-               </li>  
-              <li tabindex="0">
-                <a @click="toggle">
-                 Account
-                  <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                    viewBox="0 0 24 24">
-                    <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                  </svg>
-                </a>
-                <ul   class="p-2 bg-slate-700">
-                  <li><router-link :to="{name:'signUp'}">Sign up</router-link></li>
-                  <li><a>Log in</a></li>
-                </ul>
-              </li>
-              <li class="   ">
-                <router-link to="admin"  class=" btn bg-slate-700 hover:text-slate-200 hover:rounded-lg hover:-translate-y-0.5 transform transition ">
-                  Admin</router-link>
-              </li>
-             
-            </ul>
-          </div>
+        <div class=" hidden lg:flex  ">
+          <ul class="menu menu-horizontal  p-0">
+            <li class="lg:ml-2    ">
+              <!-- <router-link to="" class="menu-title"> Home </router-link> -->
+              <a class="flex flex-col">Browse
+                <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                </svg>
+              </a>
+
+              <ul class="p-2 bg-slate-700">
+                <li>
+                  <router-link :to="{name:'home'}">Home</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'category'}">Category</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'product'}">Product</router-link>
+                </li>
+              </ul>
+            </li>
+
+            <li tabindex="0">
+              <a @click="toggle" class="flex flex-col">
+                Account
+                <svg class="fill-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
+                  <path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
+                </svg>
+              </a>
+              <ul class="p-2 bg-slate-700">
+                <li>
+                  <router-link :to="{name:'admin'}">Admin</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'signUp'}">Sign up</router-link>
+                </li>
+                <li>
+                  <router-link :to="{name:'signIn'}">Log in</router-link>
+                </li>
+              </ul>
+            </li>
+            <li class="flex items-start">
+              <router-link to="">Order</router-link>
+            </li>
+            <li class="flex items-start">
+              <router-link class="" to="">
+
+                <i class="fa-solid fa-cart-shopping  relative bottom-2 right-3 text-3xl">
+                  <div
+                    class="inline-flex absolute -top-2 -right-2 justify-center items-center w-6 h-6 text-xs font-bold text-white bg-red-500 rounded-full ">
+                    20</div>
+                </i>
+                <span class="absolute right-0 top-3">Cart</span>
+              </router-link>
+
+            </li>
+
+          </ul>
+        </div>
 
 
 
       </div>
-    </div> 
+    </div>
+      <!-- <div v-if="selectedId">{{selectedId.id}}</div> -->
+ 
+
   </div>
 
 </template>
@@ -99,18 +149,36 @@
 
 
 <script>
- export default {
-     data(){
-      return{
-         isVisible:false
-      }
-     },
-     methods:{
-        toggle(){
-          this.isVisible =! this.isVisible
-        }
+  export default {
+    props: ["products"],
+    data() {
+      return {
+        inputValue: "",
+        isVisible: false,
+        inputValue: null,
+        selectedId : null
      }
- }
+    },
+    methods: {
+      // toggle() {
+      //   this.isVisible = !this.isVisible
+      // },
+      select(i){
+       this.inputValue = i.name
+        this.selectedId = i
+      }
+    },
+    computed: {
+    suggestItems(){
+           let item = this.products.filter(p => {  
+        if(p.name) return p.name.includes(this.inputValue)
+      })
+      return item
+    }
+
+    }
+
+  }
 
 
 

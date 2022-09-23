@@ -1,6 +1,7 @@
 <template>
   <div v-if="category">
-    <div  class=" max-w-sm bg-white  border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 text-center mx-auto">
+    <div  class=" max-w-sm bg-white  border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 text-center mx-auto
+    ease-in-out transition-all duration-500 hover:scale-105 hover:shadow-2xl ">
        
       <router-link :to="{name : 'productList', params:{id:category.id}}">
           <img class="w-full  aspect-video  object-cover"  :src="category.imageUrl">

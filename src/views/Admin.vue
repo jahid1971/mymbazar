@@ -1,24 +1,26 @@
-<script setup>
-// import TheWelcome from '@/components/TheWelcome.vue'
+<script>
+
 </script>
 
 <template>
-
   <main class=" min-h-[55vh] mt-20">
 
-    <router-link :to="{ name: 'product' }">
-      <button class=" btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl block mx-auto ">Admin Products</button>
-    </router-link>
+    <div class="text-center">
+      <router-link :to="{ name: 'product' }" class="bg-red-400">
+        <button class=" btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl ">Admin Products</button>
+      </router-link>
+    </div>
 
-    <router-link :to="{ name: 'category' }">
-      <button class="btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl block mx-auto  ">Admin Categories</button>
-    </router-link>
-
-
-    <router-link to="">
-      <button class="btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl block mx-auto  ">Admin Gallery</button>
-    </router-link>
-
+    <div class="text-center">
+      <router-link :to="{ name: 'category' }">
+        <button class="btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl mx-auto  ">Admin Categories</button>
+      </router-link>
+    </div>
+    <div class="text-center">
+      <router-link to="">
+        <button class="btn bg-blue-600  hover:bg-blue-800 py-2 mb-12 text-xl mx-auto  ">Admin Gallery</button>
+      </router-link>
+    </div>
 
 
 

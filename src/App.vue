@@ -1,44 +1,44 @@
 <script>
-import axios from 'axios'
-import { RouterLink, RouterView } from 'vue-router'
-// import HelloWorld from './components/HelloWorld.vue'
-import NavBar from './components/components/NavBar.vue'
-import myFooter from './components/components/footer.vue'
+  import axios from 'axios'
+  import { RouterLink, RouterView } from 'vue-router'
+  // import HelloWorld from './components/HelloWorld.vue'
+  import NavBar from './components/components/NavBar.vue'
+  import myFooter from './components/components/footer.vue'
 
 
-export default {
-  components: {
-    NavBar, myFooter
+  export default {
+    components: {
+      NavBar, myFooter
 
-  },
-  data() {
-    return {
-      baseUrl: "https://limitless-lake-55070.herokuapp.com/",
-      category: null,
-      products: null
-    }
-  },
-  methods: {
-    async getFetchData() {
-      await axios.get(`${this.baseUrl}/category/`)
-        .then(res => this.category = res.data)
-      // .then(data => console.log(this.category))
-      // .catch( err=> console.log('errrrrrrrrr  '+err+"eeeeeeeeeeeeeeeeerorrr   "))
     },
+    data() {
+      return {
+        baseUrl: "https://limitless-lake-55070.herokuapp.com/",
+        category: null,
+        products: null
+      }
+    },
+    methods: {
+      async getFetchData() {
+        await axios.get(`${this.baseUrl}/category/`)
+          .then(res => this.category = res.data)
+        // .then(data => console.log(this.category))
+        // .catch( err=> console.log('errrrrrrrrr  '+err+"eeeeeeeeeeeeeeeeerorrr   "))
+      },
 
-    async getProducts() {
-      await axios.get(`${this.baseUrl}product/`)
-        .then(res => this.products = res.data)
-      // .catch( err => console.log("errrrrrrrrr=                   "+err+"eeeeeeeeeeeeeeeeerorrr   "))
+      async getProducts() {
+        await axios.get(`${this.baseUrl}product/`)
+          .then(res => this.products = res.data)
+        // .catch( err => console.log("errrrrrrrrr=                   "+err+"eeeeeeeeeeeeeeeeerorrr   "))
+      }
+    },
+    mounted() {
+      this.getFetchData()
+      this.getProducts()
+
+
     }
-  },
-  mounted() {
-    this.getFetchData()
-    this.getProducts()
-
-
   }
-}
 
 
 </script>
@@ -46,7 +46,7 @@ export default {
 <template>
   <div>
 
-    <NavBar />
+    <NavBar v-if="products" :products="products" />
 
 
 
@@ -57,8 +57,8 @@ export default {
     <div>
       <index />
     </div>
-  
-    <myFooter /> 
+
+    <myFooter />
 
   </div>
 </template>
